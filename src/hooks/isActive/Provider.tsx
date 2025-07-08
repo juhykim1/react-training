@@ -1,9 +1,5 @@
-import { createContext, useContext } from 'react'
+import { IsActiveContext } from './Context'
 
-export const IsActiveContext = createContext(true)
-export function useIsActive() {
-  return useContext(IsActiveContext)
-}
 export function IsActiveProvider({
   children,
   myValue
