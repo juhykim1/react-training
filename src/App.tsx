@@ -1,45 +1,14 @@
 import { useState } from 'react'
-import TextField from '@/components/TextField'
-import Button from '@/components/Button'
-import { delay } from '@/utils'
+import Container from '@/components/contexts/Container'
 
 export default function App() {
-  const [id, setId] = useState('')
-  const [pw, setPw] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-
-  async function signIn() {
-    if (isLoading) return
-    setIsLoading(true)
-    await delay(3000)
-    console.log(id, pw)
-    setIsLoading(false)
-  }
-
+  const [isActive, setIsActive] = useState(false)
   return (
     <>
-      <form
-        className="flex max-w-[400px] flex-col gap-2.5"
-        onSubmit={e => e.preventDefault()}>
-        <TextField
-          label="아이디"
-          value={id}
-          onChange={e => setId(e.target.value)}
-        />
-        <TextField
-          type="password"
-          placeholder="비밀번호를 입력해주세요."
-          label="비밀번호"
-          value={pw}
-          onChange={e => setPw(e.target.value)}
-        />
-        <Button
-          variant="primary"
-          loading={isLoading}
-          onClick={() => signIn()}>
-          로그인
-        </Button>
-      </form>
+      <button onClick={() => setIsActive(!isActive)}>토글</button>
+      <Container />
     </>
   )
 }
+
+// 중앙 집중식 데이터 저장소 (Store)
