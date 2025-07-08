@@ -34,6 +34,7 @@ export default function App() {
           onChange={e => setPw(e.target.value)}
         />
         <Button
+          variant="primary"
           loading={isLoading}
           onClick={() => signIn()}>
           로그인
