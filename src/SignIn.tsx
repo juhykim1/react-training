@@ -2,11 +2,13 @@ import { useState } from 'react'
 import TextField from '@/components/TextField'
 import Button from '@/components/Button'
 import { delay } from '@/utils'
+import { useNavigate } from 'react-router'
 
 export default function App() {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
 
   async function signIn() {
     if (isLoading) return
@@ -14,6 +16,7 @@ export default function App() {
     await delay(3000)
     console.log(id, pw)
     setIsLoading(false)
+    navigate('/')
   }
 
   return (
