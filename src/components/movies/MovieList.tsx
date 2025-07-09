@@ -2,6 +2,7 @@ import { useMovieStore } from '@/stores/movie'
 
 export default function MovieList() {
   const movies = useMovieStore(state => state.movies)
+
   return (
     <>
       <ul>

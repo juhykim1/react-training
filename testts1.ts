@@ -1,15 +1,10 @@
-interface UserA {
+interface User1 {
   name: string
-}
-interface UserB {
   age: number
 }
 
-const user: UserA & UserB = {
-  name: 'Neo',
-  age: 22
+type HelloWorld = string | number
+type User2 = {
+  name: string
+  age: number
 }
-const a: { x: number } & { y: string } = { x: 1, y: '1' }
-
-// 유니언(Union) 타입 => 또는, |
-// 인터섹션(Intersection) 타입 => 그리고, &

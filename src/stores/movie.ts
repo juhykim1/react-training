@@ -1,25 +1,39 @@
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
-interface Movie {
-  imdbID: string
+export type Movies = Movie[]
+export interface Movie {
   Title: string
+  Year: string
+  imdbID: string
+  Type: string
+  Poster: string
 }
 
 export const useMovieStore = create(
   combine(
     {
-      movies: [] as Movie[]
+      movies: [] as Movies,
+      searchText: '',
+      isLoading: false
     },
-    set => {
+    (set, get) => {
       return {
+        setSearchText: (searchText: string) => {
+          set({ searchText })
+        },
         fetchMovies: async () => {
+          const { searchText, isLoading } = get()
+          if (isLoading) return
+          if (!searchText.trim()) return
+          set({ isLoading: true })
           const res = await fetch(
-            `https://omdbapi.com?apikey=7035c60c&s=batman`
+            `https://omdbapi.com?apikey=7035c60c&s=${searchText}`
           )
-          const { Search } = await res.json()
+          const { Search = [] } = await res.json()
           set({
-            movies: Search
+            movies: Search,
+            isLoading: false
           })
         }
       }
