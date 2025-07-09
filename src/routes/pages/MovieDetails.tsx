@@ -1,9 +1,47 @@
 import { useParams } from 'react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Loader from '@/components/Loader'
+
+export interface Movie {
+  Title: string
+  Year: string
+  Rated: string
+  Released: string
+  Runtime: string
+  Genre: string
+  Director: string
+  Writer: string
+  Actors: string
+  Plot: string
+  Language: string
+  Country: string
+  Awards: string
+  Poster: string
+  Ratings: Rating[]
+  Metascore: string
+  imdbRating: string
+  imdbVotes: string
+  imdbID: string
+  Type: string
+  DVD: string
+  BoxOffice: string
+  Production: string
+  Website: string
+  Response: string
+}
+export interface Rating {
+  Source: string
+  Value: string
+}
 
 export default function MovieDetails() {
   const { movieId } = useParams()
-  const [movie, setMovie] = useState(null)
+  const [movie, setMovie] = useState<Movie | null>(null)
+
+  useEffect(() => {
+    fetchMovieDetails()
+    // eslint-disable-next-line
+  }, [])
 
   async function fetchMovieDetails() {
     const res = await fetch(`https://omdbapi.com?apikey=7035c60c&i=${movieId}`)
@@ -12,9 +50,39 @@ export default function MovieDetails() {
   }
 
   return (
-    <>
-      <h1>Movie Details</h1>
-      <h2>Movie ID: {movieId}</h2>
-    </>
+    <div className="mx-auto grid max-w-[1200px] grid-cols-[600px_1fr] gap-10 p-4">
+      {movie ? (
+        <>
+          <img
+            src={movie.Poster.replace('SX300', 'SX1200')}
+            alt={movie.Title}
+          />
+          <div>
+            <h1 className="text-[60px] font-bold">{movie.Title}</h1>
+            <p>{movie.Plot}</p>
+            <div>
+              <h3 className="text-[22px] font-bold">Ratings</h3>
+              {movie.Ratings.map(rating => {
+                return <p key={rating.Source}></p>
+              })}
+            </div>
+            <div>
+              <h3 className="text-[22px] font-bold">Actors</h3>
+              <p>{movie.Actors}</p>
+            </div>
+            <div>
+              <h3 className="text-[22px] font-bold">Director</h3>
+              <p>{movie.Director}</p>
+            </div>
+            <div>
+              <h3 className="text-[22px] font-bold">Genre</h3>
+              <p>{movie.Genre}</p>
+            </div>
+          </div>
+        </>
+      ) : (
+        <Loader size={100} />
+      )}
+    </div>
   )
 }
