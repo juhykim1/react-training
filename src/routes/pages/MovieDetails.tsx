@@ -1,10 +1,16 @@
 import { useParams } from 'react-router'
-
-// http://localhost:5173/movies/tt0076759
-// http://localhost:5173/movies/abc123
+import { useState } from 'react'
 
 export default function MovieDetails() {
   const { movieId } = useParams()
+  const [movie, setMovie] = useState(null)
+
+  async function fetchMovieDetails() {
+    const res = await fetch(`https://omdbapi.com?apikey=7035c60c&i=${movieId}`)
+    const movie = await res.json()
+    setMovie(movie)
+  }
+
   return (
     <>
       <h1>Movie Details</h1>
