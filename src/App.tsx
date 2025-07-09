@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import Container from '@/components/contexts/Container'
+import { useCountStore } from '@/stores/count'
 
 export default function App() {
-  const [isActive, setIsActive] = useState(false)
+  const count = useCountStore(state => state.count)
+  const double = useCountStore(state => state.double)
+  const increase = useCountStore(state => state.increase)
   return (
     <>
-      <button onClick={() => setIsActive(!isActive)}>토글</button>
-      <Container />
+      <h1>
+        {count} / {double}
+      </h1>
+      <button onClick={increase}>증가</button>
     </>
   )
 }
-
-// 중앙 집중식 데이터 저장소 (Store)

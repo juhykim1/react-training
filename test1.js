@@ -1,21 +1,15 @@
-const isDone = true
+// Named Export (이름 내보내기) - n번 내보내기 / 이름이 필수!
+const a = 123
+const b = true
+const c = {}
+export { a, b, c }
 
-const promise = new Promise(resolve => {
-  console.log('대기(pending)')
-  setTimeout(() => {
-    if (isDone) {
-      resolve(123) // 이행(fulfilled)
-    }
-  }, 3000)
-})
+// Default Export (기본 내보내기) - 1번 내보내기 / 이름이 사용되지 않음!
+export default 'Hello~'
 
-const res = await promise
-console.log(res) // 123
-
-function delay(ms = 3000) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms)
-  })
-}
-await Promise.all([delay(5000), delay(1000), delay(4000), delay(2000)])
-console.log(123)
+const string = '123'
+const number = +string
+const number1 = Number(string)
+const number2 = Number.parseInt(string, 10)
+const number3 = Number.parseFloat(string)
+// const number4 = parseFloat(string)
