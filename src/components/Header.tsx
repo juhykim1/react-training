@@ -13,6 +13,7 @@ export default function Header() {
         {navigations.map(nav => {
           return (
             <NavLink
+              key={nav.to}
               to={nav.to}
               className={({ isActive }) => {
                 return isActive ? 'text-red-500' : 'text-black'
