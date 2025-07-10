@@ -1,6 +1,7 @@
-import { useParams } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import { useState, useEffect } from 'react'
 import Loader from '@/components/Loader'
+import Modal from '@/components/Modal'
 
 export interface Movie {
   Title: string
@@ -37,6 +38,7 @@ export interface Rating {
 export default function MovieDetails() {
   const { movieId } = useParams()
   const [movie, setMovie] = useState<Movie | null>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchMovieDetails()
@@ -50,47 +52,50 @@ export default function MovieDetails() {
   }
 
   return (
-    <div className="mx-auto grid max-w-[1200px] grid-cols-[600px_1fr] gap-10 p-4">
-      {movie ? (
-        <>
-          <img
-            src={movie.Poster.replace('SX300', 'SX1200')}
-            alt={movie.Title}
-          />
-          <div>
-            <h1 className="text-[60px] leading-[1.1] font-bold">
-              {movie.Title}
-            </h1>
-            <p>{movie.Plot}</p>
-            {movie.Ratings.length > 0 && (
+    <Modal offModal={() => navigate('/movies')}>
+      <div className="mx-auto flex flex-col gap-[30px] p-4">
+        {movie ? (
+          <>
+            <img
+              src={movie.Poster.replace('SX300', 'SX1200')}
+              alt={movie.Title}
+              className="w-full"
+            />
+            <div>
+              <h1 className="text-[60px] leading-[1.1] font-bold">
+                {movie.Title}
+              </h1>
+              <p>{movie.Plot}</p>
+              {movie.Ratings.length > 0 && (
+                <div className="mt-5">
+                  <h3 className="text-[22px] font-bold">Ratings</h3>
+                  {movie.Ratings.map(rating => {
+                    return (
+                      <p key={rating.Source}>
+                        {rating.Source} - {rating.Value}
+                      </p>
+                    )
+                  })}
+                </div>
+              )}
               <div className="mt-5">
-                <h3 className="text-[22px] font-bold">Ratings</h3>
-                {movie.Ratings.map(rating => {
-                  return (
-                    <p key={rating.Source}>
-                      {rating.Source} - {rating.Value}
-                    </p>
-                  )
-                })}
+                <h3 className="text-[22px] font-bold">Actors</h3>
+                <p>{movie.Actors}</p>
               </div>
-            )}
-            <div className="mt-5">
-              <h3 className="text-[22px] font-bold">Actors</h3>
-              <p>{movie.Actors}</p>
+              <div className="mt-5">
+                <h3 className="text-[22px] font-bold">Director</h3>
+                <p>{movie.Director}</p>
+              </div>
+              <div className="mt-5">
+                <h3 className="text-[22px] font-bold">Genre</h3>
+                <p>{movie.Genre}</p>
+              </div>
             </div>
-            <div className="mt-5">
-              <h3 className="text-[22px] font-bold">Director</h3>
-              <p>{movie.Director}</p>
-            </div>
-            <div className="mt-5">
-              <h3 className="text-[22px] font-bold">Genre</h3>
-              <p>{movie.Genre}</p>
-            </div>
-          </div>
-        </>
-      ) : (
-        <Loader size={100} />
-      )}
-    </div>
+          </>
+        ) : (
+          <Loader size={100} />
+        )}
+      </div>
+    </Modal>
   )
 }
