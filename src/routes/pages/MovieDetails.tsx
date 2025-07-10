@@ -58,23 +58,31 @@ export default function MovieDetails() {
             alt={movie.Title}
           />
           <div>
-            <h1 className="text-[60px] font-bold">{movie.Title}</h1>
+            <h1 className="text-[60px] leading-[1.1] font-bold">
+              {movie.Title}
+            </h1>
             <p>{movie.Plot}</p>
-            <div>
-              <h3 className="text-[22px] font-bold">Ratings</h3>
-              {movie.Ratings.map(rating => {
-                return <p key={rating.Source}></p>
-              })}
-            </div>
-            <div>
+            {movie.Ratings.length > 0 && (
+              <div className="mt-5">
+                <h3 className="text-[22px] font-bold">Ratings</h3>
+                {movie.Ratings.map(rating => {
+                  return (
+                    <p key={rating.Source}>
+                      {rating.Source} - {rating.Value}
+                    </p>
+                  )
+                })}
+              </div>
+            )}
+            <div className="mt-5">
               <h3 className="text-[22px] font-bold">Actors</h3>
               <p>{movie.Actors}</p>
             </div>
-            <div>
+            <div className="mt-5">
               <h3 className="text-[22px] font-bold">Director</h3>
               <p>{movie.Director}</p>
             </div>
-            <div>
+            <div className="mt-5">
               <h3 className="text-[22px] font-bold">Genre</h3>
               <p>{movie.Genre}</p>
             </div>
