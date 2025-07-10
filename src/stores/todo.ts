@@ -20,7 +20,7 @@ export const useTodoStore = create(
     () => {
       return {
         fetchTodos: async () => {
-          const { data } = axios({
+          const { data } = await axios({
             url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos',
             method: 'GET',
             headers: {
@@ -29,6 +29,7 @@ export const useTodoStore = create(
               username: import.meta.env.VITE_USERNAME
             }
           })
+          console.log(data)
         }
       }
     }
