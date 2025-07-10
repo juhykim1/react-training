@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router'
+import { NavLink, useLocation, useEffect } from 'react-router'
 
 const navigations = [
   { to: '/', label: 'Home' },
@@ -9,6 +9,7 @@ const navigations = [
 ]
 
 export default function Header() {
+  const token = localStorage.getItem('token')
   return (
     <header>
       <nav className="flex items-center gap-2">
