@@ -15,8 +15,13 @@ export default function App() {
     setIsLoading(true)
     await delay(3000)
     console.log(id, pw)
+    // 로그인 성공!
+    if (id && pw) {
+      const token = 'abcd1234'
+      localStorage.setItem('token', token)
+      navigate('/')
+    }
     setIsLoading(false)
-    navigate('/')
   }
 
   return (
