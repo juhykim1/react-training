@@ -2,13 +2,16 @@ import { useState } from 'react'
 import TextField from '@/components/TextField'
 import Button from '@/components/Button'
 import { delay } from '@/utils'
-import { useNavigate } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 
 export default function App() {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+
+  const redirectTo = searchParams.get('redirectTo')
 
   async function signIn() {
     if (isLoading) return
@@ -19,7 +22,7 @@ export default function App() {
     if (id && pw) {
       const token = 'abcd1234'
       localStorage.setItem('token', token)
-      navigate('/')
+      navigate(redirectTo || '/')
     }
     setIsLoading(false)
   }

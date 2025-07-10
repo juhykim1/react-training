@@ -93,7 +93,10 @@ export default function MovieDetails() {
             </div>
           </>
         ) : (
-          <Loader size={100} />
+          <Loader
+            size={100}
+            className="relative"
+          />
         )}
       </div>
     </Modal>
