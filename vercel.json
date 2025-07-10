@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 { "rewrites": [{ "source": "/:path*", "destination": "/index.html" }] }
+=======
+{
+  "rewrites": [{ "source": "/:path*", "destination": "/index.html" }]
+}
+>>>>>>> upstream/main
