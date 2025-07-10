@@ -1,9 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useOutlet, ScrollRestoration } from 'react-router'
+import { useOutlet, ScrollRestoration, useLocation } from 'react-router'
 import Header from '@/components/Header'
 
 export default function Default() {
   const outlet = useOutlet()
+  const location = useLocation()
   return (
     <>
       <Header />
