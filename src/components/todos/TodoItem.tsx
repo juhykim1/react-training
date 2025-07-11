@@ -17,6 +17,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
 
   function onEditMode() {
     setIsEditing(true)
+    setTitle(todo.title)
   }
   function offEditMode() {
     setIsEditing(false)
