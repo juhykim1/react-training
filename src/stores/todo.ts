@@ -25,9 +25,10 @@ export const useTodoStore = create(
   combine(
     {
       todos: [] as Todos,
-      isLoadingForFetch: true
+      isLoadingForFetch: true,
+      isLoadingForCreate: false
     },
-    set => {
+    (set, get) => {
       return {
         fetchTodos: async () => {
           set({ isLoadingForFetch: true })
@@ -40,8 +41,20 @@ export const useTodoStore = create(
           })
         },
         createTodo: async (title: string) => {
-          console.log(title)
-          await api({})
+          if (get().isLoadingForCreate) return
+          set({ isLoadingForCreate: true })
+          const { data } = await api<Todo>({
+            method: 'POST',
+            data: {
+              title
+            }
+          })
+          set(state => {
+            return {
+              todos: [data, ...state.todos],
+              isLoadingForCreate: false
+            }
+          })
         }
       }
     }
