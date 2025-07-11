@@ -6,22 +6,30 @@ import { useTodoStore } from '@/stores/todo'
 export default function TodoCreator() {
   const [title, setTitle] = useState('')
   const createTodo = useTodoStore(state => state.createTodo)
+  const isLoadingForCreate = useTodoStore(state => state.isLoadingForCreate)
 
-  // function handleCreateTodo() {
-
-  // }
+  async function handleCreateTodo() {
+    if (!title.trim()) return
+    await createTodo(title)
+    setTitle('')
+  }
 
   return (
-    <div>
+    <div className="grid grid-cols-[1fr_100px] gap-2">
       <TextField
         value={title}
         onChange={e => setTitle(e.target.value)}
         onKeyDown={e => {
           if (e.nativeEvent.isComposing) return
-          if (e.key === 'Enter') createTodo(title)
+          if (e.key === 'Enter') handleCreateTodo()
         }}
       />
-      <Button onClick={() => createTodo(title)}>추가</Button>
+      <Button
+        variant="primary"
+        loading={isLoadingForCreate}
+        onClick={() => handleCreateTodo()}>
+        추가
+      </Button>
     </div>
   )
 }

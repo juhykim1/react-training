@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useTodoStore } from '@/stores/todo'
 import Loader from '@/components/Loader'
+import TodoItem from '@/components/todos/TodoItem'
 
 export default function TodoList() {
   const todos = useTodoStore(state => state.todos)
@@ -17,7 +18,12 @@ export default function TodoList() {
       {isLoadingForFetch && <Loader size={100} />}
       <ul>
         {todos.map(todo => {
-          return <li key={todo.id}>{todo.title}</li>
+          return (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+            />
+          )
         })}
       </ul>
     </>
