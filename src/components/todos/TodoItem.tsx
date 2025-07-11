@@ -2,11 +2,14 @@ import { useState, useRef, useEffect } from 'react'
 import type { Todo } from '@/stores/todo'
 import Button from '@/components/Button'
 import TextField from '@/components/TextField'
+import { useTodoStore } from '@/stores/todo'
 
 export default function TodoItem({ todo }: { todo: Todo }) {
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(todo.title)
   const inputRef = useRef<HTMLInputElement>(null)
+  const updateTodo = useTodoStore(state => state.updateTodo)
+  const isLoadingForUpdate = useTodoStore(state => state.isLoadingForUpdate)
 
   useEffect(() => {
     if (isEditing) inputRef.current?.focus()
@@ -19,6 +22,14 @@ export default function TodoItem({ todo }: { todo: Todo }) {
     setIsEditing(false)
     setTitle(todo.title)
   }
+  async function handleSave() {
+    if (title === todo.title) return
+    await updateTodo({
+      ...todo,
+      title
+    })
+    offEditMode()
+  }
 
   return (
     <li className="mt-2">
@@ -30,7 +41,9 @@ export default function TodoItem({ todo }: { todo: Todo }) {
             value={title}
             onChange={e => setTitle(e.target.value)}
             onKeyDown={e => {
+              if (e.nativeEvent.isComposing) return
               if (e.key === 'Escape') offEditMode()
+              if (e.key === 'Enter') handleSave()
             }}
           />
           <Button
@@ -38,7 +51,12 @@ export default function TodoItem({ todo }: { todo: Todo }) {
             onClick={() => offEditMode()}>
             취소
           </Button>
-          <Button variant="primary">저장</Button>
+          <Button
+            variant="primary"
+            loading={isLoadingForUpdate}
+            onClick={() => handleSave()}>
+            저장
+          </Button>
           <Button variant="danger">삭제</Button>
         </div>
       ) : (
