@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
+// import { immer } from 'zustand/middleware/immer'
 import axios from 'axios'
 
 export type Todos = Todo[] // 할 일 목록
@@ -54,6 +55,13 @@ export const useTodoStore = create(
               todos: [data, ...state.todos],
               isLoadingForCreate: false
             }
+          })
+        },
+        updateTodo: async (todo: Todo) => {
+          await api({
+            url: `/${todo.id}`,
+            method: 'PUT',
+            data: todo
           })
         }
       }

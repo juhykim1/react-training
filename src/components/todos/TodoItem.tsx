@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type { Todo } from '@/stores/todo'
 import Button from '@/components/Button'
 import TextField from '@/components/TextField'
@@ -6,6 +6,19 @@ import TextField from '@/components/TextField'
 export default function TodoItem({ todo }: { todo: Todo }) {
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(todo.title)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (isEditing) inputRef.current?.focus()
+  }, [isEditing])
+
+  function onEditMode() {
+    setIsEditing(true)
+  }
+  function offEditMode() {
+    setIsEditing(false)
+    setTitle(todo.title)
+  }
 
   return (
     <li className="mt-2">
@@ -13,15 +26,16 @@ export default function TodoItem({ todo }: { todo: Todo }) {
         // 수정 모드
         <div className="grid grid-cols-[1fr_100px_100px_100px] items-center gap-2">
           <TextField
+            ref={inputRef}
             value={title}
             onChange={e => setTitle(e.target.value)}
             onKeyDown={e => {
-              if (e.key === 'Escape') setIsEditing(false)
+              if (e.key === 'Escape') offEditMode()
             }}
           />
           <Button
             variant="secondary"
-            onClick={() => setIsEditing(false)}>
+            onClick={() => offEditMode()}>
             취소
           </Button>
           <Button variant="primary">저장</Button>
@@ -37,7 +51,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
           <h3>{todo.title}</h3>
           <Button
             variant="primary"
-            onClick={() => setIsEditing(true)}>
+            onClick={() => onEditMode()}>
             수정
           </Button>
         </div>
